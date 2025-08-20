@@ -20,6 +20,8 @@ This directory contains the **TaskForge** API built with Express.js and MongoDB.
 
    ```bash
    npm install
+   npm install express mongoose cors dotenv
+   npm install -D nodemon
    ```
 
 3. Create a `.env` file (optional) in the `backend` directory to override the default port (`5000`) and MongoDB connection URI. Example:

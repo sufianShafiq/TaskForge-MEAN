@@ -9,10 +9,10 @@ This directory contains a modern Angular frontend for **TaskForge**, manually cr
 
 ## Setup
 
-1. Navigate into this `frontend-ng` directory:
+1. Navigate into this `frontend` directory:
 
    ```bash
-   cd frontend-ng
+   cd frontend
    ```
 
 2. Install dependencies:

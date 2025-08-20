@@ -1,129 +1,210 @@
-# TaskForge – MEAN Stack Task Manager
+# TaskForge – MEAN Stack Task Manager (Angular Components)
 
-TaskForge is a simple yet complete **MEAN** (MongoDB, Express, Angular, Node.js) project that demonstrates how to build a full‑stack web application. The application lets users create, view, update and delete tasks. The backend uses **Node.js**, **Express** and **MongoDB** (via Mongoose), and the frontend is a modern Angular (2+) application with components, routing and reactive forms (located in `frontend-ng`).
+TaskForge is a full-stack **MEAN** project (MongoDB, Express, Angular, Node.js) for practicing CRUD with a clean, component-based Angular frontend.
 
-This project is designed to run on **Windows 11**, but can also run on other platforms.
+---
+
+## Features
+- **Backend:** Node.js + Express + Mongoose; RESTful CRUD for tasks.
+- **Frontend:** Angular (v18.x) with components, routing, reactive forms, and an HttpClient service.
+- **Dev-UX:** Proxy config to avoid CORS during development, environment file for API base URL.
+- **Scripts:** `npm start` / `npm run dev` for backend; `ng serve` for frontend.
+
+---
+
+- **Node.js** v20+ (v22 OK) and **npm**.
+- **MongoDB** (local install or Atlas connection string).
+- **Angular CLI** (optional): `npm i -g @angular/cli`.
+
+---
 
 ## Project Structure
-
 ```
 TaskForge/
-├─ backend/       # Express server and API routes
-│  ├─ models/     # Mongoose models
-│  ├─ routes/     # API route definitions
-│  ├─ server.js   # Entry point for the backend
+├─ backend/                 # Express API
+│  ├─ models/task.model.js  # Mongoose schema
+│  ├─ routes/task.routes.js # CRUD routes
+│  ├─ server.js             # App entry
 │  ├─ package.json
 │  └─ README.md
-├─ frontend-ng/   # Angular (2+) client with components and routing
-│  ├─ angular.json
-│  ├─ package.json
-│  ├─ proxy.conf.json
-│  ├─ tsconfig.json
-│  ├─ tsconfig.app.json
-│  └─ src/
-│     ├─ index.html
-│     ├─ main.ts
-│     ├─ polyfills.ts
-│     ├─ styles.css
-│     ├─ environments/
-│     │  ├─ environment.ts
-│     │  └─ environment.prod.ts
-│     └─ app/
-│        ├─ app.module.ts
-│        ├─ app-routing.module.ts
-│        ├─ app.component.ts
-│        ├─ app.component.html
-│        ├─ services/
-│        │  └─ task.service.ts
-│        ├─ tasks-list/
-│        │  ├─ tasks-list.component.ts
-│        │  ├─ tasks-list.component.html
-│        │  └─ tasks-list.component.css
-│        └─ task-form/
-│           ├─ task-form.component.ts
-│           ├─ task-form.component.html
-│           └─ task-form.component.css
-└─ README.md      # This file
+└─ frontend/                # Angular (2+) client with components
+   ├─ angular.json
+   ├─ package.json
+   ├─ proxy.conf.json
+   ├─ tsconfig*.json
+   └─ src/
+      ├─ index.html
+      ├─ main.ts
+      ├─ styles.css
+      ├─ environments/
+      │  ├─ environment.ts
+      │  └─ environment.prod.ts
+      └─ app/
+         ├─ app.module.ts
+         ├─ app-routing.module.ts      # '' → TasksList, 'create', 'edit/:id'
+         ├─ services/task.service.ts   # HttpClient wrapper
+         ├─ tasks-list/*               # list + toggle + delete + navigate
+         └─ task-form/*                # create/edit via reactive forms
 ```
 
-## Prerequisites
+---
 
-Before running TaskForge on a Windows 11 machine, ensure that you have the following software installed:
+## 1) Backend Setup
 
-1. **Node.js** – Download and install the latest LTS version from [nodejs.org](https://nodejs.org/). The installer includes `npm` (Node Package Manager).
-2. **MongoDB** – Install MongoDB Community Server from [mongodb.com/try/download/community](https://www.mongodb.com/try/download/community) or set up a cloud database using [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
-3. **A code editor** (optional but recommended), such as [Visual Studio Code](https://code.visualstudio.com/).
-
-If you plan to serve the frontend with a local static server, you can also install the `http-server` package globally:
-
-```bash
-npm install -g http-server
-```
-
-## Setup Instructions
-
-1. **Clone or extract this repository** on your Windows 11 machine.
-
-2. **Backend Setup**:
-   1. Open a terminal (PowerShell or Command Prompt) and navigate to the `backend` directory:
-
-      ```powershell
-      cd TaskForge\backend
-      ```
-
-   2. Install the backend dependencies (this reads `package.json` and installs Express, Mongoose, etc.):
-
-      ```powershell
-      npm install
-      ```
-
-   3. Ensure MongoDB is running locally on its default port (`mongodb://localhost:27017`). If using MongoDB Atlas or a different setup, create a `.env` file in the `backend` directory and specify your connection string:
-
-      ```env
-      MONGODB_URI=your-mongodb-connection-string
-      PORT=5000
-      ```
-
-   4. Start the backend server:
-
-      ```powershell
-      npm start
-      ```
-
-      The API will be available at `http://localhost:5000/api/tasks`.
-
-3. **Frontend Setup**:
-
-   Navigate to the `frontend-ng` directory and install dependencies:
-
+1. Open PowerShell in the backend folder:
    ```powershell
-   cd TaskForge\frontend-ng
+   cd TaskForge\backend
    npm install
    ```
 
-   Then start the Angular dev server (which proxies API requests to the backend) with:
-
-   ```powershell
-   ng serve --proxy-config proxy.conf.json
+2. Create **.env** (same folder as `server.js`):
+   ```env
+   MONGODB_URI=mongodb://localhost:27017/taskforge
+   PORT=5000
    ```
 
-   This will launch the app at `http://localhost:4200`. You can navigate to `/create` to add a new task, `/edit/:id` to edit an existing task, and see a list of tasks on the home route.
+3. Run the API:
+   ```powershell
+   # Auto-restart (if nodemon is installed)
+   npm run dev
+   # or
+   npm start
+   ```
 
-## Customisation
+4. The API should be available at:
+   - `http://localhost:5000/api/tasks`
 
-* **API Endpoint:** If your backend server runs on a different host or port, edit the `apiUrl` value in `frontend-ng/src/environments/environment.ts`.
-* **MongoDB Connection:** Modify the `MONGODB_URI` in `backend/server.js` or via a `.env` file to point to your MongoDB instance.
-* **Styling:** Adjust colours, fonts and layout by editing `frontend-ng/src/styles.css` and component‑specific CSS files.
+### REST Endpoints
+- `GET    /api/tasks`            → list (newest first)
+- `POST   /api/tasks`            → create `{ title, description }`
+- `PUT    /api/tasks/:id`        → update `{ title?, description?, completed? }`
+- `DELETE /api/tasks/:id`        → delete
 
-## Known Limitations
+---
 
-* Because this environment cannot access the npm registry, none of the Node or Angular packages are installed by default. You will need to run `npm install` on your own machine to fetch dependencies before running the backend or the Angular frontend.
-* The Angular frontend included in `frontend-ng` was created manually following Angular CLI conventions. It may lack some advanced features provided out‑of‑the‑box by `ng new`. Feel free to extend it as needed.
+## 2) Frontend Setup (Angular Components)
 
-## Contributing
+> Note: You renamed the client folder to **`frontend`** (correct).
 
-Feel free to extend TaskForge by adding features such as user authentication, task categories, due dates, or other improvements. Pull requests and contributions are welcome.
+1. Open PowerShell in the frontend folder:
+   ```powershell
+   cd TaskForge\frontend
+   npm install
+   ```
 
-## License
+2. Ensure the proxy is present (`frontend\proxy.conf.json`):
+   ```json
+   {
+     "/api": { "target": "http://localhost:5000", "secure": false, "changeOrigin": true }
+   }
+   ```
 
-This project is licensed under the MIT License.
+3. Set the API base URL (dev) in `src/environments/environment.ts`:
+   ```ts
+   export const environment = {
+     production: false,
+     apiUrl: 'http://localhost:5000/api'
+   };
+   ```
+
+4. **Run** (dev server + proxy):
+   ```powershell
+   npx ng serve --proxy-config proxy.conf.json
+   # http://localhost:4200
+   ```
+
+5. **Build (production):**
+   ```powershell
+   npm run build
+   # outputs to dist/taskforge-client
+   ```
+
+---
+
+## Key Files (Frontend)
+
+- `src/app/services/task.service.ts`  
+  Update the import to the correct environments path (already fixed):
+  ```ts
+  import { environment } from '../../environments/environment';
+  ```
+
+- `angular.json` (important snippets):
+  ```json
+  {
+    "version": 1,
+    "projects": {
+      "taskforge-client": {
+        "architect": {
+          "build": { "builder": "@angular-devkit/build-angular:browser" },
+          "serve": {
+            "builder": "@angular-devkit/build-angular:dev-server",
+            "options": { "buildTarget": "taskforge-client:build", "proxyConfig": "proxy.conf.json" }
+          }
+        }
+      }
+    },
+    "defaultProject": "taskforge-client"
+  }
+  ```
+
+- `package.json` (frontend – essential dev deps):
+  ```json
+  {
+    "devDependencies": {
+      "@angular/cli": "^18.2.0",
+      "@angular/compiler-cli": "^18.2.0",
+      "@angular-devkit/build-angular": "^18.2.0",
+      "typescript": "~5.5.0"
+    }
+  }
+  ```
+
+---
+
+## Troubleshooting
+
+- **Cannot find module 'dotenv'** (backend):  
+  Run `npm install dotenv` (already in `package.json`). Ensure `.env` exists.
+
+- **Angular builder not found / defaultProject warning**:  
+  Make sure `@angular-devkit/build-angular` is installed and `angular.json` matches the snippet above.
+
+- **Environment import error**:  
+  From `src/app/services/` to `src/environments/` use:
+  ```ts
+  import { environment } from '../../environments/environment';
+  ```
+
+- **CORS**:  
+  Use the provided `proxy.conf.json` and run `ng serve --proxy-config proxy.conf.json`.
+
+---
+
+## Scripts Reference
+
+### Backend (`TaskForge\backend\package.json`)
+- `start` → `node server.js`
+- `dev`   → `nodemon server.js`
+
+### Frontend (`TaskForge\frontend\package.json`)
+- `start` → `ng serve --proxy-config proxy.conf.json`
+- `build` → `ng build`
+
+---
+
+## Tech Stack Versions
+- Angular 18.x, TypeScript 5.5.x, Zone.js 0.14.x
+- Node.js 20+ (22 OK), MongoDB latest
+
+---
+
+## Next Steps (suggestions)
+- Add JWT auth (Angular interceptor + protected Express routes).
+- Pagination & search on list view (`GET /api/tasks?page=&q=` pattern).
+- Dockerize API + Mongo; CI/CD for Angular build artifacts.
+- Unit tests (Jest for backend, Karma/Jasmine or Vitest for Angular).
+
+---
+
+**License:** MIT
