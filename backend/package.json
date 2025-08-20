@@ -1,0 +1,21 @@
+{
+  "name": "taskforge-backend",
+  "version": "1.0.0",
+  "description": "Backend API for TaskForge, a simple task management application built with Express and MongoDB.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "TaskForge Contributors",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mongoose": "^7.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

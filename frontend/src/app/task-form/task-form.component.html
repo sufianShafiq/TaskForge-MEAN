@@ -1,0 +1,22 @@
+<h2>{{ isEdit ? 'Edit Task' : 'Create Task' }}</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <div>
+    <label for="title">Title</label>
+    <input id="title" formControlName="title" />
+    <div class="error" *ngIf="form.controls['title'].invalid && form.controls['title'].touched">
+      Title is required.
+    </div>
+  </div>
+  <div>
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" formControlName="completed" />
+      Completed
+    </label>
+  </div>
+  <button type="submit" [disabled]="form.invalid">{{ isEdit ? 'Update' : 'Create' }}</button>
+  <button type="button" (click)="router.navigate(['/'])">Cancel</button>
+</form>

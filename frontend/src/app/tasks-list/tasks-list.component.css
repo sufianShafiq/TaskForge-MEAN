@@ -1,0 +1,27 @@
+.tasks {
+  list-style: none;
+  padding: 0;
+}
+
+.tasks li {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding: 0.5rem 0;
+}
+
+.tasks .completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.tasks .description {
+  margin-left: 1rem;
+  font-style: italic;
+  color: #6c757d;
+  flex: 1 1 auto;
+}
+
+button {
+  margin-left: 0.5rem;
+}

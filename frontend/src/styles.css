@@ -1,0 +1,33 @@
+/* Global styles for the TaskForge Angular app */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f7f9;
+}
+
+.navbar {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #007bff;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar a.active {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
